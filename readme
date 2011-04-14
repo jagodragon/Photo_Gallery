@@ -1,0 +1,61 @@
+Welcome to the gallery.
+by: Jago Dragon
+Intro
+=================================================================
+this was writen because I missed the feature and wanted it back.
+now i have to admit that most of this code is copied from the
+old mangos web v2 web site and modified to give it more features
+and to simplify things for the end user.
+=================================================================
+Features:
+=================================================================
+ - view images that are on your server.
+   (screenshots, wallpapers, other categories*, or all images.)
+		*this module allowsyou to add your own category
+		 if you want
+ - allow users to upload images to any category.
+ - allow site admin to add image categories to the list
+		!!! do not remove the screenshots category as it is 
+		    part of the main site not a module!!!
+
+Features i want to add:
+ - Allow users to edit comments on thier images and perhaps even
+   remove them if they want
+ - Give site admin a tool to remove/manage images on the site.
+=================================================================
+Instructions:
+=================================================================
+1: Install
+	To install and start using this module, simply unpack 
+	everything to a new folder in your modules folder and add a
+	link to it on the front page.
+
+2: Adding categories.
+	a: open config.php, alllang files, and the cache folder
+	b: Add your new categories name in the gal_list array
+	   in config.php like so:
+
+			'2' => 'walpaper'
+		changes to
+			'2' => 'walpaper',
+			'3' => 'newcat'
+
+		if you look at config.php, you will see this change 
+		alreadymade and commented out for your referance ;)
+
+	c: Add the title of your new category to your supported
+	   languages in the lang_*.php files like so:
+
+			'addyourown' => 'Add your Own'
+		changes to
+			'addyourown' => 'Add your Own',
+			'newcat' => 'New Category'
+
+		if you look at config_English.php, you will see this
+		change alreadymade and commented out for your referance ;)
+
+	d: in the cache folder add a new folder named what you enterd
+	   in config.php with an "s" at the this folder would be
+	        ./cache/newcats
+
+	You new category is done and ready to use.
