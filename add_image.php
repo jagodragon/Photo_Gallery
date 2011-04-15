@@ -56,7 +56,7 @@ if (isset($_POST['doadd']))
   }
   if(copy($_FILES["filename"]["tmp_name"],"../".$Module_Config['mangwebdir']."/images/".$galtype."s/".$_FILES["filename"]["name"].""))
   {
-    $DB->query("INSERT INTO mw_gallery (img,comment,autor,date,cat) VALUES('".$img."','".$comment."','".$autor."','cur_date','screenshot')");
+    $DB->query("INSERT INTO mw_gallery (img,comment,autor,date,cat) VALUES('".$img."','".$comment."','".$autor."',current_date,'".$galtype."')");
   }
   else
   {
