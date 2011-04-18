@@ -56,7 +56,6 @@ if(function_exists('Content_Div_Start'))
  // include the module config file(s)
  include(MODULE_PATH .'config/config.php');
  include(MODULE_PATH .'config/lang_'.$GLOBALS["user_cur_lang"].'.php');
- //include(MODULE_PATH .'thumbnail.inc.php');
  
 //getting module theme from site theme 
 If (isset($user['theme']))

@@ -29,6 +29,69 @@ if(INCLUDED !== TRUE)
 //echo '<br />Gallery</a> ';
 //echo '<br /><a href="?module='. MODULE_NAME .'&sub=wallpaper_gallery&page=1"><br />'.add_pictureletter('wallpapers').'';
 //echo '<br />Gallery</a> ';
+
+
+//**************** Commits an edit to the db **************************//
+if (isset($_POST['doedit']))
+{
+  if (isset ($_POST['galtype']))
+  {
+    $galtype=$_POST['galtype'];
+	$oldgaltype=$DB->selectCell("SELECT `cat` FROM `mw_gallery` WHERE `id`= '".$_POST['picid']."'");
+  }
+  else
+  {
+    echo $module_lang['selecttype'];
+	exit;
+  }
+  $img=isset ($_FILES["filename"]["name"]) ? $_FILES["filename"]["name"] : '';
+  $comment=isset($_POST['message']) ? $_POST['message'] : '';
+  $autor=$user['username'];
+  $date=date("Y-m-d");
+  $filemane=$DB->selectCell("SELECT `img` FROM `mw_gallery` WHERE `id`= '".$_POST['picid']."'");
+  if ($oldgaltype == $galtype)
+  {
+    $DB->query("update `mw_gallery` SET `comment`='".$comment."' WHERE `id`='".$_POST['picid']."'");
+	echo ''.$module_lang['editsuccess'].'<br/>';
+  }
+  elseif ($oldgaltype == 'deleted')
+  {
+    $oldgaltype=$DB->selectCell("SELECT `oldcat` FROM `mw_gallery` WHERE `id`= '".$_POST['picid']."'");
+	if(copy("../".$Module_Config['mangwebdir']."/images/".$oldgaltype."s/".$filemane."","../".$Module_Config['mangwebdir']."/images/".$galtype."s/".$filemane.""))
+    {
+      $DB->query("update `mw_gallery` SET `comment`='".$comment."',`cat`='".$galtype."' WHERE `id`='".$_POST['picid']."'");
+      echo ''.$module_lang['editsuccess'].'<br/>';
+    }
+	else
+    {
+      $DB->query("update `mw_gallery` SET `comment`='".$comment."',`cat`='".$galtype."',`oldcat`='' WHERE `id`='".$_POST['picid']."'");
+      echo ''.$module_lang['editsuccess'].'<br/>';
+    }
+  }
+  Else
+  {
+    if(copy("../".$Module_Config['mangwebdir']."/images/".$oldgaltype."s/".$filemane."","../".$Module_Config['mangwebdir']."/images/".$galtype."s/".$filemane.""))
+    {
+      $DB->query("update `mw_gallery` SET `comment`='".$comment."',`cat`='".$galtype."' WHERE `id`='".$_POST['picid']."'");
+	  echo ''.$module_lang['editsuccess'].'<br/>';
+    }
+    else
+    {
+      echo $module_lang['Uploaderror'];  
+    }
+  }
+}
+
+//**************** Commits a delete to the db **************************//
+if (isset($_POST['dodelete']))
+{
+          //    UPDATE `mw_gallery` SET `cat` = 'deleted', `oldcat` = 'wallpaper' WHERE `id` = 1;
+    $DB->query("update `mw_gallery` SET `cat` = 'deleted', `oldcat` = '".$_POST['oldgal']."' WHERE `id`='".$_POST['picid']."';");
+    echo ''.$module_lang['deletesuccess'].'<br/>';
+  
+}
+
+//**************** Prints main menu **************************//
 foreach ($Gal_list as $galleries)
 {
 echo '<a href="?module='. MODULE_NAME .'&sub=gallery&gal='. $galleries .'&page=1"><br />'.add_pictureletter($module_lang[$galleries]).'';
@@ -38,6 +101,15 @@ echo '<br/>';
 echo '<a href="?module='. MODULE_NAME .'&sub=gallery&page=1"><br />'.add_pictureletter($module_lang['allimages']).'';
 echo '<br/>'.$module_lang['inthegallery'].'</a>';
 echo '<br/>';
+if ($user['account_level'] >= 3)
+{
+  if ( (int)$DB->selectCell("SELECT COUNT(`id`) FROM `mw_gallery` WHERE `cat` ='deleted';") >> 0)
+  {
+    echo '<a href="?module='. MODULE_NAME .'&sub=gallery&gal=deleted&page=1"><br />'.add_pictureletter($module_lang['deleted']).'';
+    echo '<br/>'.$module_lang['images'].'</a>';
+    echo '<br/>';
+  }
+}
 echo '<a href="?module='. MODULE_NAME .'&sub=add_image"><br />'.add_pictureletter($module_lang['addyourown']).'';
 echo '<br/>'.$module_lang['images'].'</a> ';
 

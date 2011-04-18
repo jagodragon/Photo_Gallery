@@ -59,3 +59,11 @@ Instructions:
 	        ./cache/newcats
 
 	You new category is done and ready to use.
+
+=================================================================
+Changelog:
+=================================================================
+- added features to allow users to edit or delete their own
+  picture or move it to a different gallery.
+- Added features to allow admins to edit or delete any picture
+  or move it to a new gallery.

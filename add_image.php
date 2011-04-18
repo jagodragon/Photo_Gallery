@@ -60,13 +60,13 @@ if (isset($_POST['doadd']))
   }
   else
   {
-    echo /*$lang['Uploaderror']*/'uploaderror';  
+    echo $module_lang['Uploaderror'];  
   }
 }
 
 
 echo '
-  <form method="post" action="index.php?module=Photo_Gallery&sub=add_image" enctype="multipart/form-data">
+  <form method="post" action="index.php?module='. MODULE_NAME .'&sub=add_image" enctype="multipart/form-data">
   <select name="galtype">
   <option value="">'.$module_lang['galtype'].' -&gt;</option>
 ';
@@ -92,6 +92,13 @@ echo'
   </center>
 ';
 echo '
-<form>
+</form>
+';
+echo '
+<form method="post" action="index.php?module='. MODULE_NAME .'" enctype="multipart/form-data">
+  <center>
+    <input type="submit" value="'.$module_lang['home'].'" name="mainmenu">
+  </center>
+</form>
 ';
 ?>
